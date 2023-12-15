@@ -13,10 +13,13 @@ interface CreatePolicyResponse {
 export class CreatePolicyUseCase {
   constructor(private policyRepository: PolicyRepository) {}
 
-  async execute({ name }: CreatePolicyRequest): Promise<CreatePolicyResponse> {
+  async execute({
+    name,
+    comparators,
+  }: CreatePolicyRequest): Promise<CreatePolicyResponse> {
     const policy = await this.policyRepository.create({
       name,
-      comparators: { test: 'PolicyCreatedThroughtUseCase' },
+      comparators,
     })
 
     return { policy }
