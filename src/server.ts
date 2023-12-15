@@ -1,19 +1,8 @@
 import fastify from 'fastify'
-import { prisma } from './lib/prisma'
+import { policyRoutes } from './controllers/routes'
 
 const app = fastify()
-app.post('/policy/test', async (request, response) => {
-  const newPolicy = await prisma.policy.create({
-    data: {
-      name: 'testPolicy',
-      comparators: {
-        test: 'test',
-      },
-    },
-  })
-
-  return response.send(newPolicy)
-})
+app.register(policyRoutes)
 
 app
   .listen({
