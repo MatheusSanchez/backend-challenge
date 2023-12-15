@@ -1,8 +1,18 @@
 import fastify from 'fastify'
+import { prisma } from './lib/prisma'
 
 const app = fastify()
-app.get('/policy/test', (request, response) => {
-  response.send('Working')
+app.post('/policy/test', async (request, response) => {
+  const newPolicy = await prisma.policy.create({
+    data: {
+      name: 'testPolicy',
+      comparators: {
+        test: 'test',
+      },
+    },
+  })
+
+  return response.send(newPolicy)
 })
 
 app
