@@ -3,7 +3,20 @@ import { randomUUID } from 'crypto'
 import { PolicyRepository } from '../policyRepository'
 
 export class InMemomryPolicyRepository implements PolicyRepository {
-  public db: Policy[] = []
+  // eslint-disable-next-line no-use-before-define
+  private static instance: InMemomryPolicyRepository | null
+  private db: Policy[] = []
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
+
+  public static getInstance(): InMemomryPolicyRepository {
+    if (!InMemomryPolicyRepository.instance) {
+      InMemomryPolicyRepository.instance = new InMemomryPolicyRepository()
+    }
+
+    return InMemomryPolicyRepository.instance
+  }
 
   async create(policy: Prisma.PolicyCreateInput) {
     const newPolicy: Policy = {
@@ -26,5 +39,9 @@ export class InMemomryPolicyRepository implements PolicyRepository {
     }
 
     return policy
+  }
+
+  async fetchAll() {
+    return this.db
   }
 }

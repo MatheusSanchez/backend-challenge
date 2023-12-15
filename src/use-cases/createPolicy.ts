@@ -20,7 +20,7 @@ export class CreatePolicyUseCase {
     const policyAlreadyExist =
       await this.policyRepository.findByPolicyName(policyName)
 
-    if (!policyAlreadyExist) {
+    if (policyAlreadyExist) {
       throw new Error('policy already exist')
     }
 
