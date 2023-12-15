@@ -13,5 +13,5 @@ datasource db {
 model Policy {
   id    String     @id @default(uuid())
   policyName String  @unique
-  comparators Json
+  comparators Json[]
 }

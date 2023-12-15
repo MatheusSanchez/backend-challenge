@@ -34,9 +34,7 @@ export class InMemomryPolicyRepository implements PolicyRepository {
     const newPolicy: Policy = {
       id: policy.id ? policy.id : randomUUID(),
       policyName: policy.policyName,
-      comparators: (policy.comparators
-        ? policy.comparators
-        : []) as Prisma.JsonValue,
+      comparators: policy.comparators ? (policy.comparators as string[]) : [],
     }
 
     this.db.push(newPolicy)

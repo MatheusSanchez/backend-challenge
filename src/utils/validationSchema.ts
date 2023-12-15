@@ -7,7 +7,7 @@ const comparatorsSchema = {
     referenceValue: { type: 'string' },
     result: { type: 'boolean' },
     type: { type: 'string', enum: ['result', 'compare', 'start'] },
-    policyAge: { type: 'number' },
+    order: { type: 'number' },
     truePath: { type: ['array', 'null'], items: { type: 'integer' } },
     falsePath: { type: ['array', 'null'], items: { type: 'integer' } },
   },
@@ -18,7 +18,7 @@ const comparatorsSchema = {
     'referenceValue',
     'result',
     'type',
-    'policyAge',
+    'order',
   ],
 }
 
@@ -27,7 +27,10 @@ const bodyJsonSchema = {
   required: ['policyName', 'comparators'],
   properties: {
     policyName: { type: 'string' },
-    comparators: comparatorsSchema,
+    comparators: {
+      type: ['array'],
+      items: comparatorsSchema,
+    },
   },
 }
 export const schema = {
