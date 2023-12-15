@@ -8,7 +8,7 @@ export class InMemomryPolicyRepository implements PolicyRepository {
   async create(policy: Prisma.PolicyCreateInput) {
     const newPolicy: Policy = {
       id: policy.id ? policy.id : randomUUID(),
-      name: policy.name,
+      policyName: policy.policyName,
       comparators: (policy.comparators
         ? policy.comparators
         : []) as Prisma.JsonValue,

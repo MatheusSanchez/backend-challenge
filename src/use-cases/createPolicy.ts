@@ -2,7 +2,7 @@ import { Policy } from '@prisma/client'
 import { PolicyRepository } from '../repositories/policyRepository'
 
 interface CreatePolicyRequest {
-  name: string
+  policyName: string
   comparators: JSON
 }
 
@@ -14,11 +14,11 @@ export class CreatePolicyUseCase {
   constructor(private policyRepository: PolicyRepository) {}
 
   async execute({
-    name,
+    policyName,
     comparators,
   }: CreatePolicyRequest): Promise<CreatePolicyResponse> {
     const policy = await this.policyRepository.create({
-      name,
+      policyName,
       comparators,
     })
 

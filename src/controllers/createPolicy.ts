@@ -10,9 +10,9 @@ export async function createPolicy(
   request: FastifyRequest,
   response: FastifyReply,
 ) {
-  const { name, comparators } = request.body
+  const { policyName, comparators } = request.body
 
-  const newPolicy = await createPolicyUseCase.execute({ name, comparators })
+  const newPolicy = await createPolicyUseCase.execute({ policyName, comparators })
 
   return response.status(201).send(newPolicy)
 }

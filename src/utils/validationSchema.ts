@@ -24,9 +24,9 @@ const comparatorsSchema = {
 
 const bodyJsonSchema = {
   type: 'object',
-  required: ['name', 'comparators'],
+  required: ['policyName', 'comparators'],
   properties: {
-    name: { type: 'string' },
+    policyName: { type: 'string' },
     comparators: comparatorsSchema,
   },
 }
