@@ -4,4 +4,5 @@ export interface PolicyRepository {
   create(policy: Prisma.PolicyCreateInput): Promise<Policy>
   findByPolicyName(policyName: string): Promise<Policy | null>
   fetchAll(): Promise<Policy[]>
+  deleteByPolicyName(policyName: string): Promise<boolean>
 }

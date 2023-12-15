@@ -18,6 +18,18 @@ export class InMemomryPolicyRepository implements PolicyRepository {
     return InMemomryPolicyRepository.instance
   }
 
+  async deleteByPolicyName(policyName: string): Promise<boolean> {
+    let deleted = false
+    this.db.forEach((policy, index) => {
+      if (policy.policyName === policyName) {
+        this.db.splice(index, 1)
+        deleted = true
+      }
+    })
+
+    return deleted
+  }
+
   async create(policy: Prisma.PolicyCreateInput) {
     const newPolicy: Policy = {
       id: policy.id ? policy.id : randomUUID(),
