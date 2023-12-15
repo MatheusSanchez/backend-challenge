@@ -17,4 +17,14 @@ export class InMemomryPolicyRepository implements PolicyRepository {
     this.db.push(newPolicy)
     return this.db[this.db.length - 1]
   }
+
+  async findByPolicyName(policyName: string) {
+    const policy = this.db.find((policy) => policy.policyName === policyName)
+
+    if (!policy) {
+      return null
+    }
+
+    return policy
+  }
 }
