@@ -5,20 +5,7 @@ import { ComparatorsTS } from '../../utils/validationSchema'
 import { RecordNotFoundPrismaErrorInMemory } from '../../use-cases/errors/recordNotFoundPrismaErrorInMemory'
 
 export class InMemomryPolicyRepository implements PolicyRepository {
-  // eslint-disable-next-line no-use-before-define
-  private static instance: InMemomryPolicyRepository | null
   private db: Policy[] = []
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private constructor() {}
-
-  public static getInstance(): InMemomryPolicyRepository {
-    if (!InMemomryPolicyRepository.instance) {
-      InMemomryPolicyRepository.instance = new InMemomryPolicyRepository()
-    }
-
-    return InMemomryPolicyRepository.instance
-  }
 
   async deleteByPolicyName(policyName: string) {
     let deleted: Policy = {} as Policy
