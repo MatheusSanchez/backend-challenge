@@ -1,10 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InMemomryPolicyRepository } from '../repositories/in-memory-db/inMemoryPolicyRepository'
 import { PolicyRepository } from '../repositories/policyRepository'
 import { FetchAllPoliciesUseCase } from '../use-cases/fetchAllPolicies'
+import { PrismaPolicyRepository } from '../repositories/prisma/PrismaPolicyRepository'
 
-const policyRepository: PolicyRepository =
-  InMemomryPolicyRepository.getInstance()
+const policyRepository: PolicyRepository = new PrismaPolicyRepository()
 const fetchAllPoliciesUseCase = new FetchAllPoliciesUseCase(policyRepository)
 
 export async function getAllPolicies(

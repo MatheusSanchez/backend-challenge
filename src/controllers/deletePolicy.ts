@@ -1,10 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { InMemomryPolicyRepository } from '../repositories/in-memory-db/inMemoryPolicyRepository'
 import { PolicyRepository } from '../repositories/policyRepository'
 import { DeletePolicyUseCase } from '../use-cases/deletePolicy'
+import { PrismaPolicyRepository } from '../repositories/prisma/PrismaPolicyRepository'
 
-const policyRepository: PolicyRepository =
-  InMemomryPolicyRepository.getInstance()
+const policyRepository: PolicyRepository = new PrismaPolicyRepository()
 const deletePolicyUseCase = new DeletePolicyUseCase(policyRepository)
 
 export async function deletePolicy(
