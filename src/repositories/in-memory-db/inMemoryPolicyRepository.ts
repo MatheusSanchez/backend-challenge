@@ -1,6 +1,7 @@
 import { Policy, Prisma } from '@prisma/client'
 import { randomUUID } from 'crypto'
 import { PolicyRepository } from '../policyRepository'
+import { ComparatorsTS } from '../../utils/validationSchema'
 
 export class InMemomryPolicyRepository implements PolicyRepository {
   // eslint-disable-next-line no-use-before-define
@@ -34,7 +35,9 @@ export class InMemomryPolicyRepository implements PolicyRepository {
     const newPolicy: Policy = {
       id: policy.id ? policy.id : randomUUID(),
       policyName: policy.policyName,
-      comparators: policy.comparators ? (policy.comparators as string[]) : [],
+      comparators: policy.comparators
+        ? (policy.comparators as ComparatorsTS[])
+        : [],
     }
 
     this.db.push(newPolicy)

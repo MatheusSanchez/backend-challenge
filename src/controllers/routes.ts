@@ -4,11 +4,13 @@ import { schema } from '../utils/validationSchema'
 import { getAllPolicies } from './getAllPolicies'
 import { deletePolicy } from './deletePolicy'
 import { getPolicy } from './getPolicy'
+import { executePolicy } from './executePolicy'
 
 export async function policyRoutes(app: FastifyInstance) {
   app.post('/policy', { schema }, createPolicy)
   app.delete('/policy/:policyName', deletePolicy)
 
+  app.post('/execute', executePolicy)
   app.get('/policy/all', getAllPolicies)
   app.get('/policy/:policyName', getPolicy)
 }
