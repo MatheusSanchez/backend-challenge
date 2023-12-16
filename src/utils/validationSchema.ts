@@ -1,40 +1,5 @@
 import { Policy } from '@prisma/client'
 
-const comparatorsSchema = {
-  type: 'object',
-  properties: {
-    id: { type: 'integer' },
-    label: { type: 'string' },
-    operator: { type: 'string' },
-    referenceValue: { type: 'integer' },
-    result: { type: 'boolean' },
-    type: { type: 'string', enum: ['result', 'compare', 'start'] },
-    truePath: { type: 'integer' },
-    falsePath: { type: 'integer' },
-  },
-  required: [
-    'id',
-    'type',
-    // check at least one result
-  ],
-}
-
-export const bodyJsonSchema = {
-  type: 'object',
-  required: ['policyName', 'comparators'],
-  properties: {
-    policyName: { type: 'string' },
-    comparators: {
-      type: ['array'],
-      items: comparatorsSchema,
-    },
-  },
-}
-
-export const schema = {
-  body: bodyJsonSchema,
-}
-
 export type TestLabelValue = {
   label: string
   value: number

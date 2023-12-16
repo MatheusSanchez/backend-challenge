@@ -1,11 +1,7 @@
 import { Policy } from '@prisma/client'
 import { PolicyRepository } from '../repositories/policyRepository'
 import { PolicyAlreadyExistError } from './errors/policyAlreadyExist'
-
-interface CreatePolicyRequest {
-  policyName: string
-  comparators: JSON
-}
+import { PolicyTS } from '../utils/validationSchema'
 
 interface CreatePolicyResponse {
   policy: Policy
@@ -17,7 +13,7 @@ export class CreatePolicyUseCase {
   async execute({
     policyName,
     comparators,
-  }: CreatePolicyRequest): Promise<CreatePolicyResponse> {
+  }: PolicyTS): Promise<CreatePolicyResponse> {
     const policyAlreadyExist =
       await this.policyRepository.findByPolicyName(policyName)
 
