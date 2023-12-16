@@ -1,10 +1,14 @@
 import { PolicyRepository } from '../repositories/policyRepository'
 import {
   ComparatorsTS,
+  PolicyTS,
   TestLabelValue,
-  mapperToPolicyTSObject,
 } from '../utils/validationSchema'
+import { MissingLabelError } from './errors/missingLabelError'
+import { ComparatorNotExistError } from './errors/comparatorNotExistError'
+import { MoreLabelsThanExpectedError } from './errors/moreLabelsThanExpected'
 import { ResourceNotFoundError } from './errors/resourceNotFound'
+import { ComparatorReferenceValueError } from './errors/comparatorReferenceValueError'
 
 interface ExecutePolicyRequest {
   policyName: string
@@ -27,39 +31,35 @@ export class ExecutePolicyUseCase {
     if (!policiesDB) {
       throw new ResourceNotFoundError()
     }
-    const policies = mapperToPolicyTSObject(policiesDB)
+
+    const policies: PolicyTS = {
+      policyName: policiesDB.policyName,
+      comparators: policiesDB.comparators as ComparatorsTS[],
+    }
 
     const labelsFromRequest = tests.map((test) => test.label)
 
     const notResultComparators = policies.comparators.filter(
-      (comparator) =>
-        comparator.label !== 'result' && comparator.label !== undefined,
+      (comparator) => comparator.label && comparator.label !== 'result',
     )
-    console.log('notResultComparators')
-    console.log(notResultComparators)
 
     const labelsRequired = notResultComparators.map(
       (comparator) => comparator.label,
     ) as string[]
 
-    console.log('labelsRequired')
-    console.log(labelsRequired)
-
     for (let i = 0; i < labelsRequired.length; i++) {
       if (labelsFromRequest.indexOf(labelsRequired[i]) === -1) {
-        throw new Error('Missing Label ' + labelsRequired[i])
+        throw new MissingLabelError(labelsRequired[i])
       }
     }
 
     if (labelsFromRequest.length > labelsRequired.length) {
-      throw new Error('You Input more labels than this Policy Needs ')
+      throw new MoreLabelsThanExpectedError()
     }
 
-    const startComparator: ComparatorsTS = policies.comparators.find(
-      (comparator) => {
-        return comparator.type === 'start'
-      },
-    ) as ComparatorsTS
+    const startComparator = policies.comparators.find((comparator) => {
+      return comparator.type === 'start'
+    }) as ComparatorsTS
 
     return {
       result: executionEngine(tests, policies.comparators, startComparator),
@@ -98,6 +98,10 @@ function executionEngine(
 }
 
 function decider(comparator: ComparatorsTS, test: TestLabelValue) {
+  if (comparator.referenceValue === undefined) {
+    throw new ComparatorReferenceValueError()
+  }
+
   switch (comparator.operator) {
     case '=':
       return comparator.referenceValue === test.value
@@ -111,6 +115,6 @@ function decider(comparator: ComparatorsTS, test: TestLabelValue) {
       return test.value < comparator.referenceValue
     default:
       console.log('This Operator does not exist')
-      throw new Error('This Operator does not exist')
+      throw new ComparatorNotExistError()
   }
 }
