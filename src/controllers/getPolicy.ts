@@ -3,6 +3,7 @@ import { InMemomryPolicyRepository } from '../repositories/in-memory-db/inMemory
 import { PolicyRepository } from '../repositories/policyRepository'
 import { FetchPolicyUseCase } from '../use-cases/fetchPolicy'
 import { ResourceNotFoundError } from '../use-cases/errors/resourceNotFound'
+import { z } from 'zod'
 
 const policyRepository: PolicyRepository =
   InMemomryPolicyRepository.getInstance()
@@ -12,7 +13,10 @@ export async function getPolicy(
   request: FastifyRequest,
   response: FastifyReply,
 ) {
-  const { policyName } = request.params
+  const getPolicyParamsSchmea = z.object({
+    policyName: z.string(),
+  })
+  const { policyName } = getPolicyParamsSchmea.parse(request.params)
 
   let policy
 

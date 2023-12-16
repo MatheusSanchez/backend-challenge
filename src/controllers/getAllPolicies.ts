@@ -7,7 +7,7 @@ const policyRepository: PolicyRepository = new PrismaPolicyRepository()
 const fetchAllPoliciesUseCase = new FetchAllPoliciesUseCase(policyRepository)
 
 export async function getAllPolicies(
-  _request: FastifyRequest,
+  _: FastifyRequest,
   response: FastifyReply,
 ) {
   const policies = await fetchAllPoliciesUseCase.execute()

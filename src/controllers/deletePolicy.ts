@@ -3,6 +3,7 @@ import { PolicyRepository } from '../repositories/policyRepository'
 import { DeletePolicyUseCase } from '../use-cases/deletePolicy'
 import { PrismaPolicyRepository } from '../repositories/prisma/PrismaPolicyRepository'
 import { ResourceNotFoundError } from '../use-cases/errors/resourceNotFound'
+import { z } from 'zod'
 
 const policyRepository: PolicyRepository = new PrismaPolicyRepository()
 const deletePolicyUseCase = new DeletePolicyUseCase(policyRepository)
@@ -11,7 +12,10 @@ export async function deletePolicy(
   request: FastifyRequest,
   response: FastifyReply,
 ) {
-  const { policyName } = request.params
+  const deletePolicyParamsSchmea = z.object({
+    policyName: z.string(),
+  })
+  const { policyName } = deletePolicyParamsSchmea.parse(request.params)
 
   let deletedPolicy
 
