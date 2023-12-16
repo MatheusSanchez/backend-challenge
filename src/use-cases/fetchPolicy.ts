@@ -1,5 +1,6 @@
 import { Policy } from '@prisma/client'
 import { PolicyRepository } from '../repositories/policyRepository'
+import { ResourceNotFoundError } from './errors/resourceNotFound'
 
 interface FetchPolicyResponse {
   policy: Policy
@@ -18,7 +19,7 @@ export class FetchPolicyUseCase {
     const policy = await this.policyRepository.findByPolicyName(policyName)
 
     if (!policy) {
-      throw new Error("Didn't find policy")
+      throw new ResourceNotFoundError()
     }
 
     return { policy }

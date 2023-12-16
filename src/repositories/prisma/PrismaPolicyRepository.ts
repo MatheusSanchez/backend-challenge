@@ -21,16 +21,12 @@ export class PrismaPolicyRepository implements PolicyRepository {
   }
 
   async deleteByPolicyName(policyName: string) {
-    try {
-      await prisma.policy.delete({
-        where: {
-          policyName,
-        },
-      })
-    } catch (e) {
-      console.log(e)
-    }
+    const deletedPolicy = await prisma.policy.delete({
+      where: {
+        policyName,
+      },
+    })
 
-    return true
+    return deletedPolicy
   }
 }

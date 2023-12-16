@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { InMemomryPolicyRepository } from '../repositories/in-memory-db/inMemoryPolicyRepository'
 import { PolicyRepository } from '../repositories/policyRepository'
 import { FetchPolicyUseCase } from '../use-cases/fetchPolicy'
+import { ResourceNotFoundError } from '../use-cases/errors/resourceNotFound'
 
 const policyRepository: PolicyRepository =
   InMemomryPolicyRepository.getInstance()
@@ -12,7 +13,18 @@ export async function getPolicy(
   response: FastifyReply,
 ) {
   const { policyName } = request.params
-  const policy = await fetchPolicyUseCase.execute({ policyName })
 
-  return response.status(200).send(policy)
+  let policy
+
+  try {
+    policy = await fetchPolicyUseCase.execute({ policyName })
+  } catch (e) {
+    if (e instanceof ResourceNotFoundError) {
+      return response.status(404).send({ message: e.message })
+    }
+
+    throw e
+  }
+
+  return response.status(201).send(policy)
 }

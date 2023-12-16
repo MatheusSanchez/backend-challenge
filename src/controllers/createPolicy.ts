@@ -24,6 +24,8 @@ export async function createPolicy(
     if (e instanceof PolicyAlreadyExistError) {
       return response.status(409).send({ message: e.message })
     }
+
+    throw e
   }
 
   return response.status(201).send(newPolicy)

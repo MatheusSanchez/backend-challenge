@@ -4,6 +4,7 @@ import {
   TestLabelValue,
   mapperToPolicyTSObject,
 } from '../utils/validationSchema'
+import { ResourceNotFoundError } from './errors/resourceNotFound'
 
 interface ExecutePolicyRequest {
   policyName: string
@@ -24,7 +25,7 @@ export class ExecutePolicyUseCase {
     const policiesDB = await this.policyRepository.findByPolicyName(policyName)
 
     if (!policiesDB) {
-      throw new Error('Resource Not Found')
+      throw new ResourceNotFoundError()
     }
     const policies = mapperToPolicyTSObject(policiesDB)
 

@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { PolicyRepository } from '../repositories/policyRepository'
 import { DeletePolicyUseCase } from '../use-cases/deletePolicy'
 import { PrismaPolicyRepository } from '../repositories/prisma/PrismaPolicyRepository'
+import { ResourceNotFoundError } from '../use-cases/errors/resourceNotFound'
 
 const policyRepository: PolicyRepository = new PrismaPolicyRepository()
 const deletePolicyUseCase = new DeletePolicyUseCase(policyRepository)
@@ -12,13 +13,19 @@ export async function deletePolicy(
 ) {
   const { policyName } = request.params
 
-  const wasDeleted = await deletePolicyUseCase.execute({
-    policyName,
-  })
+  let deletedPolicy
 
-  if (wasDeleted) {
-    return response.status(204).send()
+  try {
+    deletedPolicy = await deletePolicyUseCase.execute({
+      policyName,
+    })
+  } catch (e) {
+    if (e instanceof ResourceNotFoundError) {
+      return response.status(202).send({ message: e.message })
+    }
+
+    throw e
   }
 
-  return response.status(202).send()
+  return response.status(200).send(deletedPolicy)
 }
