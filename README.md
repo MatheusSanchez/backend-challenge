@@ -106,12 +106,13 @@ if (day == 30) {
         } else {
           return false
         }
-      } else {
-        return false
-      }
-   } else {
+    } else {
+      return false
+    }
+} else {
   return false
 }
+
 ```
 
 The corresponding policy creation needs to first check if the day label is 30, second check if the creditScore label is bigger than 10.000, and last check if the label dadScore is bigger than 20000. If all decisions are true, we return true.
