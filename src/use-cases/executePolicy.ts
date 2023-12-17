@@ -72,8 +72,6 @@ function executionEngine(
   comparators: ComparatorsTS[],
   actualComparator: ComparatorsTS,
 ): boolean {
-  console.log('actualComparator')
-  console.log(actualComparator)
   if (actualComparator.type === 'result') {
     return actualComparator.result as boolean
   }
@@ -114,7 +112,6 @@ function decider(comparator: ComparatorsTS, test: TestLabelValue) {
     case '<':
       return test.value < comparator.referenceValue
     default:
-      console.log('This Operator does not exist')
       throw new ComparatorNotExistError()
   }
 }
