@@ -167,7 +167,7 @@ describe('Execute Policy Use Case', () => {
     expect(result).toBe(false)
   })
 
-  it('Should not be able to Execute Policy that doo not exist', async () => {
+  it('Should not be able to Execute Policy that does not exist', async () => {
     await expect(() =>
       executePolicyUseCase.execute({
         policyName: 'FirstPolicy',

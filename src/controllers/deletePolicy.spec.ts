@@ -73,7 +73,7 @@ describe('Delete Policy E2E', () => {
     expect(response.statusCode).toEqual(200)
   })
 
-  it('should not be able delete a policy that do not exist', async () => {
+  it('should not be able delete a policy that does not exist', async () => {
     const policyName = 'inexistentPolicy'
 
     const response = await request(app.server).delete(`/policy/${policyName}`)

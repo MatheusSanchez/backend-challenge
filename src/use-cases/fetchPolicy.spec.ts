@@ -61,7 +61,7 @@ describe('Fetch Policy Use Case', () => {
     expect(policyTestTwo.comparators).toHaveLength(2)
   })
 
-  it('should not be able to get a Policy that do not exist', async () => {
+  it('should not be able to get a Policy that does not exist', async () => {
     await expect(() =>
       fetchPolicyUseCase.execute({
         policyName: 'policyThatDoNotExist',
