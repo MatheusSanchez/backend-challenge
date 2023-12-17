@@ -11,7 +11,7 @@ describe('Get Policy E2E', () => {
     await app.close()
   })
 
-  it.only('should be able to get a policy', async () => {
+  it('should be able to get a policy', async () => {
     const policyName = 'policyToGet'
 
     await request(app.server)
@@ -77,7 +77,7 @@ describe('Get Policy E2E', () => {
     )
   })
 
-  it.only('should not be able to get a policy that do not exist', async () => {
+  it('should not be able to get a policy that do not exist', async () => {
     const policyName = 'inexistentPolicy'
 
     const response = await request(app.server).get(`/policy/${policyName}`)

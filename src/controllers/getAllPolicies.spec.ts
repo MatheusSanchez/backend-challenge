@@ -11,7 +11,7 @@ describe('Get All Policies E2E', () => {
     await app.close()
   })
 
-  it.only('should be able to get all policies', async () => {
+  it('should be able to get all policies', async () => {
     const allPoliciesLenght = 3
 
     for (let i = 0; i < allPoliciesLenght; i++) {

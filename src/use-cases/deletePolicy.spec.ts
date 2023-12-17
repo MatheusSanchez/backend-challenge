@@ -38,7 +38,7 @@ describe('Delete Policy Use Case', () => {
     expect(deletedPolicy.comparators).toHaveLength(2)
   })
 
-  it('should not be able to delete a Policy that do not exist', async () => {
+  it('should not be able to delete a Policy that does not exist', async () => {
     await policyRepository.create({
       policyName: 'wrongPolicy',
       comparators: [
