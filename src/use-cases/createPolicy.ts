@@ -1,7 +1,7 @@
 import { Policy } from '@prisma/client'
 import { PolicyRepository } from '../repositories/policyRepository'
 import { PolicyAlreadyExistError } from './errors/policyAlreadyExist'
-import { PolicyTS } from '../utils/validationSchema'
+import { PolicyTS } from '../utils/PolicyTypes'
 
 interface CreatePolicyResponse {
   policy: Policy

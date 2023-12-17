@@ -6,7 +6,7 @@ import { ResourceNotFoundError } from './errors/resourceNotFound'
 import { MissingLabelError } from './errors/missingLabelError'
 import { MoreLabelsThanExpectedError } from './errors/moreLabelsThanExpected'
 import { ComparatorReferenceValueError } from './errors/comparatorReferenceValueError'
-import { ComparatorNotExistError } from './errors/comparatorNotExistError'
+import { OperatorNotExistError } from './errors/comparatorNotExistError'
 
 let policyRepository: PolicyRepository
 let executePolicyUseCase: ExecutePolicyUseCase
@@ -309,6 +309,6 @@ describe('Execute Policy Use Case', () => {
             },
           ],
         }),
-    ).rejects.toBeInstanceOf(ComparatorNotExistError)
+    ).rejects.toBeInstanceOf(OperatorNotExistError)
   })
 })

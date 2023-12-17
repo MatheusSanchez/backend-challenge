@@ -1,11 +1,7 @@
 import { PolicyRepository } from '../repositories/policyRepository'
-import {
-  ComparatorsTS,
-  PolicyTS,
-  TestLabelValue,
-} from '../utils/validationSchema'
+import { ComparatorsTS, PolicyTS, TestLabelValue } from '../utils/PolicyTypes'
 import { MissingLabelError } from './errors/missingLabelError'
-import { ComparatorNotExistError } from './errors/comparatorNotExistError'
+import { OperatorNotExistError } from './errors/comparatorNotExistError'
 import { MoreLabelsThanExpectedError } from './errors/moreLabelsThanExpected'
 import { ResourceNotFoundError } from './errors/resourceNotFound'
 import { ComparatorReferenceValueError } from './errors/comparatorReferenceValueError'
@@ -97,6 +93,7 @@ function executionEngine(
 
 function decider(comparator: ComparatorsTS, test: TestLabelValue) {
   if (comparator.referenceValue === undefined) {
+    console.log(comparator)
     throw new ComparatorReferenceValueError()
   }
 
@@ -112,6 +109,6 @@ function decider(comparator: ComparatorsTS, test: TestLabelValue) {
     case '<':
       return test.value < comparator.referenceValue
     default:
-      throw new ComparatorNotExistError()
+      throw new OperatorNotExistError()
   }
 }

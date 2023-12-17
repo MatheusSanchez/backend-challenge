@@ -1,7 +1,7 @@
 import { Policy, Prisma } from '@prisma/client'
 import { randomUUID } from 'crypto'
 import { PolicyRepository } from '../policyRepository'
-import { ComparatorsTS } from '../../utils/validationSchema'
+import { ComparatorsTS } from '../../utils/PolicyTypes'
 import { RecordNotFoundPrismaErrorInMemory } from '../../use-cases/errors/recordNotFoundPrismaErrorInMemory'
 
 export class InMemomryPolicyRepository implements PolicyRepository {
